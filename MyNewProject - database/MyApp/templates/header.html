@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <span></span>
+    <style>
+        /* พื้นหลัง */
+        body {
+            background-image: url("{% static 'images/หน้าเว็บ.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: "Georgia", serif;
+            background-color: #fde4e4;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* ส่วนหัว */
+        h1 {
+            font-size: 36px;
+            font-weight: bold;
+            color: #5a4361;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            margin-top: 40px;
+        }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            padding: 15px 0;
+            /* background: rgba(255, 255, 255, 0); */
+            width: 500%;
+            position: fixed;
+            bottom: 0;
+            box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ปุ่มเมนู */
+        .menu-item {
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .menu-item img {
+            width: 130px;
+            height: 100px;
+            margin-bottom: 5px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: #5a436100;
+            font-size: 1rem;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* เอฟเฟกต์เมื่อโฮเวอร์ */
+        .menu-item:hover {
+            transform: scale(1.1);
+        }
+
+        .menu-item:hover img {
+            transform: scale(1.2);
+        }
+
+        .menu-item:hover a {
+            color: #e798a7;
+        }
+
+        /* รองรับหน้าจอขนาดเล็ก */
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                padding: 20px 0;
+            }
+
+            .menu-item img {
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- <h1>MeowDiary Menu</h1> -->
+
+    <!-- Footer -->
+    <div class="footer">
+        <!-- ปุ่มสมัครสมาชิก -->
+        <div class="menu-item">
+            <a href="{% url 'register_view' %}">
+                <img src="{% static 'images/iconregister.png' %}" alt="สมัครสมาชิก">
+                <span></span>
+            </a>
+        </div>
+
+        <!-- ปุ่มเข้าสู่ระบบ -->
+        <div class="menu-item">
+            <a href="{% url 'login' %}">
+                <img src="{% static 'images/loginicon.png' %}" alt="เข้าสู่ระบบ">
+                <span></span>
+            </a>
+        </div>
+
+        <!-- ปุ่มแนะนำการเลี้ยงสัตว์ -->
+        <div class="menu-item">
+            <a href="{% url 'advice' %}">
+                <img src="{% static 'images/iconadvice.png' %}" alt="แนะนำการเลี้ยงสัตว์">
+                <span></span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

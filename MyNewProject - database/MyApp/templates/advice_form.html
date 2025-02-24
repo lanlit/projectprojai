@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แนะนำการเลี้ยงแมว 🐱</title>
+
+    <!-- ✅ Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* 🌟 Global Styles */
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 0;
+            background: url("{% static 'images/อัพโหลดโปรไฟล์.png' %}") no-repeat center top;
+            background-size: cover;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        /* 🌟 กล่องฟอร์ม */
+        .container {
+            max-width: 700px;
+            width: 90%;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.90); /* ทำให้โปร่งใสเล็กน้อย */
+            border-radius: 15px;
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+            backdrop-filter: blur(12px);
+            margin-top: 170px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #d63384;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* ✅ ปรับให้ช่องเลือกวันที่ และหมวดหมู่ มีขนาดเท่ากัน */
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .form-group select,
+        .form-group input[type="datetime-local"] {
+            width: 50%;
+            padding: 14px;
+            font-size: 1.2rem;
+            border: 2px solid #d1b3c4;
+            border-radius: 35px;
+            background: #fff;
+            transition: all 0.3s ease-in-out;
+            outline: none;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group select:focus,
+        .form-group input[type="datetime-local"]:focus {
+            border-color: #ff7eb3;
+            box-shadow: 0 0 12px rgba(255, 126, 179, 0.4);
+        }
+
+        textarea {
+            width: 96%;
+            padding: 14px;
+            font-size: 1.2rem;
+            border: 2px solid #d1b3c4;
+            border-radius: 12px;
+            background: #fff;
+            transition: all 0.3s ease-in-out;
+            outline: none;
+            height: 150px;
+            
+            resize: none;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea:focus {
+            border-color: #ff7eb3;
+            box-shadow: 0 0 12px rgba(255, 126, 179, 0.4);
+        }
+
+        /* 🌟 ปุ่ม */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1.2rem;
+            padding: 12px 20px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #ff7eb3, #ff5277);
+            transition: all 0.3s ease-in-out;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0px 6px 15px rgba(255, 126, 179, 0.3);
+            text-transform: uppercase;
+            font-weight: bold;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #ff5277, #ff7eb3);
+            transform: scale(1.05);
+            box-shadow: 0px 8px 18px rgba(255, 82, 119, 0.4);
+        }
+
+        /* 🌟 Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 🌟 ฟอร์ม -->
+    <div class="container">
+        <h1>แนะนำการเลี้ยงแมว</h1>
+
+        <form method="POST" action="{% url 'save_advice' %}">
+            {% csrf_token %}
+
+            <!-- ✅ กลุ่มเลือกวันที่และหมวดหมู่ให้เท่ากัน -->
+            <div class="form-group">
+                <input type="datetime-local" name="created_at" id="selected-date" required>
+                
+                <select name="category" required>
+                    <option value="" disabled selected>🐾 เลือกหมวดหมู่</option>
+                    <option value="อาหารสำหรับแมว">🍖 อาหารสำหรับแมว</option>
+                    <option value="โรคที่จะเสี่ยงเป็นในแต่ละวัย">💊 โรคในแต่ละวัย</option>
+                    <option value="การรักษาความสะอาดของแมว">🛁 การรักษาความสะอาด</option>
+                </select>
+            </div>
+
+            <textarea name="advice_text" placeholder="✍️ พิมพ์คำแนะนำที่นี่..." required></textarea>
+
+            <div class="button-group">
+                {% if user.is_authenticated %}
+                    <!-- ปุ่มจะปรากฏเมื่อผู้ใช้เข้าสู่ระบบ -->
+                    <a href="{% url 'home' %}" class="btn">กลับไปหน้าโฮม</a>
+                {% else %}
+                    <!-- ไม่แสดงปุ่มเมื่อผู้ใช้ไม่ได้เข้าสู่ระบบ -->
+                {% endif %}
+
+                <!-- ปุ่มรายการคำแนะนำ -->
+                <a href="{% url 'advice_list' %}" class="btn">
+                    <i class="fa-solid fa-list"></i> รายการคำแนะนำ
+                </a>
+
+                <!-- ปุ่มบันทึก -->
+                <button type="submit" class="btn">
+                    <i class="fa-solid fa-floppy-disk"></i> บันทึก
+                </button>
+            </div>
+        </form>
+    </div>
+
+<script>
+    // ✅ ตั้งค่าให้ input date สามารถเลือกย้อนหลังและกำหนดค่าเป็นวันนี้
+    document.addEventListener("DOMContentLoaded", function() {
+        let today = new Date().toISOString().split('T')[0];
+        let dateInput = document.getElementById("selected-date");
+        dateInput.value = today;
+        dateInput.removeAttribute("max"); // อนุญาตให้เลือกย้อนหลังได้
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeowDiary Menu</title>
+    <style>
+        body {
+            background-image: url("{% static 'images/อัพโหลดโปรไฟล์.png' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center top;
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: #5a4361;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 50px;
+            width: 100%;
+        }
+
+        .menu-item {
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            border: none;
+            width: 250px;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-transform: uppercase;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-item::before {
+            font-size: 1.8rem;
+        }
+
+        .menu-advice::before { content: "📖"; }
+        .menu-profile::before { content: "👤"; }
+        .menu-diary::before { content: "📝"; }
+        .menu-memory::before { content: "💾"; }
+
+        /* ปรับปุ่มออกจากระบบ */
+        .menu-logout {
+            background: #f44336; /* สีแดง */
+            background: linear-gradient(to right, #f44336, #f55a5a);
+        }
+
+        .menu-logout:hover {
+            background: linear-gradient(to right, #d32f2f, #ff6659);
+        }
+
+        .header {
+            margin-top: 20px;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .running-cat {
+            position: fixed;
+            bottom: 10px;
+            left: -150px;
+            width: 300px;
+            height: auto;
+            animation: runCat 10s linear infinite;
+        }
+
+        @keyframes runCat {
+            0% { left: -150px; }
+            100% { left: 110%; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">Menu 🐱</div>
+
+    <div class="menu-container">
+        <form action="{% url 'advice' %}" method="get">
+            <button class="menu-item menu-advice">คำแนะนำ</button>
+        </form>
+
+        <form action="{% url 'profile_view' %}" method="get">
+            <button class="menu-item menu-profile">โปรไฟล์</button>
+        </form>
+
+        <form action="{% url 'diary_view' %}" method="post">
+            {% csrf_token %}
+            <button class="menu-item menu-diary">บันทึกไดอารี่</button>
+        </form>
+
+        <form action="{% url 'list_view' %}" method="get">
+            <button class="menu-item menu-memory">Memory</button>
+        </form>
+
+        <!-- ปุ่มออกจากระบบ -->
+        <form action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            <button class="menu-item menu-logout">ออกจากระบบ</button>
+        </form>
+    </div>
+
+    <img src="{% static 'images/แมวจุ๊บ.gif' %}" alt="แมววิ่ง" class="running-cat">
+</body>
+</html>

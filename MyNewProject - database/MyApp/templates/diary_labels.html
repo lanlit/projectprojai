@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diary Labels</title>
+</head>
+<body>
+    <h1>Diary Entries with Sentiment Labels</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Content</th>
+            <th>Label</th>
+        </tr>
+        {% for entry in diary_entries %}
+        <tr>
+            <td>{{ entry.id }}</td>
+            <td>{{ entry.content }}</td>
+            <td>{{ entry.label }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

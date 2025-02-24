@@ -1,0 +1,249 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แก้ไขข้อมูลผู้ใช้ - MeowDiary</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* 🌸 Global Styles */
+        body {
+            background-color: #fde4e4;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 🎨 ดีไซน์โปรไฟล์ */
+        .cat-profile-title {
+            font-size: 2.2rem;
+            font-weight: bold;
+            text-align: center;
+            color: #5a4361;
+            background: linear-gradient(45deg, #ff8ba7, #f4b1c2);
+            padding: 12px 25px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .cat-profile-title:hover {
+            transform: scale(1.05);
+            transition: 0.3s ease-in-out;
+        }
+
+        .profile-box {
+            padding: 20px;
+            border: 3px dashed #ff8ba7;
+            border-radius: 20px;
+            background: rgba(255, 139, 167, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .profile-picture {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 20px auto;
+            border: 5px solid #ff99aa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-picture img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-btn {
+            background-color: #ff8ba7;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .upload-btn:hover {
+            background-color: #f07384;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            font-size: 1.1rem;
+            color: #5a4361;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            text-align: left;
+            background-color: #f0e5f4;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: #ff8ba7;
+            box-shadow: 0 0 10px rgba(255, 139, 167, 0.5);
+        }
+
+        /* ปรับปุ่ม */
+        .actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .actions button {
+            background-color: #fb4874;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .actions button:hover {
+            background-color: #f07384;
+        }
+
+        .btn-secondary {
+            background-color: #47b4db;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            border: none;
+            margin-top: 20px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #999;
+        }
+
+        /* 🌟 อนิเมชัน */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="cat-profile-title">🐱 โปรไฟล์แมว: <span class="cat-name">{{ form.instance.cat_name }}</span> 🐾</h1>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: {% if message.tags == 'success' %}green{% else %}red{% endif %};">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        {% endif %}
+
+        <div class="profile-box">
+            <div class="profile-picture">
+                {% if form.instance.catprofile_image %}
+                    <img id="catprofile-image-preview" src="{{ form.instance.catprofile_image.url }}" alt="รูปโปรไฟล์แมว">
+                {% else %}
+                    <img id="catprofile-image-preview" >
+                {% endif %}
+            </div>
+
+            <label class="upload-btn">
+                📷 อัพโหลดรูปโปรไฟล์
+                <input type="file" name="catprofile_image" accept="image/*" hidden onchange="previewImage(event)">
+            </label>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="cat_name">ชื่อแมว</label>
+                {{ form.cat_name }}
+            </div>
+
+            <div class="form-group">
+                <label for="cat_age">อายุ</label>
+                {{ form.cat_age }}
+            </div>
+
+            <div class="form-group">
+                <label for="cat_breed">สายพันธุ์/สี</label>
+                {{ form.cat_breed }}
+            </div>
+
+            <div class="form-group">
+                <label for="cat_gender">เพศ</label>
+                {{ form.cat_gender }}
+            </div>
+
+            <div class="form-group">
+                <label for="cat_birthday">วันเกิด</label>
+                {{ form.cat_birthday }}
+            </div>
+
+            <div class="form-group">
+                <label for="cat_fav">สิ่งที่ชอบ</label>
+                {{ form.cat_fav }}
+            </div>
+
+            <div class="actions">
+                <button type="submit">บันทึกข้อมูลแมว</button>
+            </div>
+        </form>
+
+        <br>
+        <a href="{% url 'cat_profile' %}" class="btn-secondary">กลับไปโปรไฟล์</a>
+    </div>
+
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function(){
+                document.getElementById('catprofile-image-preview').src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+</body>
+</html>

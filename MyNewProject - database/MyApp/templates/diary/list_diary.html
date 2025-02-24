@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeowDiary - รายการบันทึก</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffe7e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #5a4361;
+        }
+
+        .back-home-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            background-color: #5a4361;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .back-home-btn:hover {
+            background-color: #7a5b7e;
+        }
+
+        .search-form {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .search-form input[type="text"], 
+        .search-form input[type="date"] {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .search-form button {
+            background-color: #5a4361;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .search-form button:hover {
+            background-color: #7a5b7e;
+        }
+
+        .diary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .diary-table th, 
+        .diary-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .diary-table th {
+            background-color: #f4b1c2;
+            color: white;
+        }
+
+        .diary-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .button {
+            background-color: #f4b1c2;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #e798a7;
+        }
+
+        /* เพิ่มระยะห่างจากกรอบปุ่ม */
+        .actions button {
+            background-color: #fb4874;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            max-width: 250px;
+            margin-top: 25px; /* ลดระยะห่างจากกรอบ */
+        }
+
+        /* เพิ่มระยะห่างระหว่างปุ่ม */
+        .actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;  /* เพิ่มระยะห่างระหว่างปุ่ม */
+            margin-top: 30px;
+        }
+
+        /* เพิ่มระยะห่างระหว่างปุ่มต่าง ๆ */
+        .back-home-btn,
+        .button {
+            margin-top: 20px; /* เพิ่มระยะห่างจากปุ่มอื่นๆ */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MeowDiary - รายการบันทึก</h1>
+
+        <!-- Search Form -->
+        <form method="GET" class="search-form">
+            <input type="text" name="query" placeholder="ค้นหาด้วยข้อความ..." value="{{ request.GET.query }}">
+            <input type="date" name="date" value="{{ request.GET.date }}">
+            <button type="submit">ค้นหา</button>
+        </form>
+        
+        <!-- Diary Table -->
+        {% if diaries %}
+        <table class="diary-table">
+            <thead>
+                <tr>
+                    <th>วันที่</th>
+                    <th>รายละเอียด</th>
+                    <th>การจัดการ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for diary in diaries %}
+                <tr>
+                    <td>{{ diary.date }}</td>
+                    <td>{{ diary.content|truncatechars:50 }}</td>
+                    <td>
+                        <a href="{% url 'diary_detail' diary.id %}" class="button">ดูรายละเอียด</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>ไม่พบรายการบันทึก</p>
+        {% endif %}
+
+        <!-- ปุ่มกลับไปเขียนไดอารี่ -->
+        <a href="{% url 'diary_form' %}" class="back-home-btn">เขียนไดอารี่ใหม่</a>
+
+        <a href="{% url 'select_year' %}" class="button">สร้างวิดีโอความทรงจำที่ดี</a>
+
+        <!-- ปุ่มกลับหน้าแรก -->
+        <a href="{% url 'home' %}" class="back-home-btn">กลับ</a>
+    </div>
+</body>
+</html>

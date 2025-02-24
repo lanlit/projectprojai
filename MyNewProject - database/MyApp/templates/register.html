@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สมัครสมาชิก</title>
+    <style>
+        body {
+            background-image: url("{% static 'images/สมัครสมาชิก.png' %}");
+            background-size: 1400px;
+            background-repeat: no-repeat;
+            background-position: center;
+            font-family: 'Arial', sans-serif;
+            background-color: #fdf3f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 100px;
+        }
+
+        .container {
+            border-radius: 15px;
+            padding: 30px 40px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            margin-top: 250px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #6a253c; /* สีชมพูเหมือนในภาพ */
+            margin-bottom: 10px;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* สร้าง 2 คอลัมน์ */
+            gap: 20px;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #5a4361;
+            text-align: left;
+            display: block;
+        }
+
+        input, select {
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            background-color: #f8f8f8; /* สีเทาอ่อน */
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .full-width {
+            grid-column: span 2; /* ช่องกรอกข้อมูลเต็มความกว้าง */
+        }
+
+        button {
+            grid-column: span 2;
+            padding: 15px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        @media (max-width: 600px) {
+            form {
+                grid-template-columns: 1fr; /* เปลี่ยนเป็น 1 คอลัมน์ในหน้าจอเล็ก */
+            }
+
+            button {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>สมัครสมาชิก</h1>
+        <form method="POST" action="{% url 'register_view' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="first_name">ชื่อ</label>
+                <input type="text" id="first_name" name="first_name" required>
+            </div>
+            <div class="form-group">
+                <label for="last_name">นามสกุล</label>
+                <input type="text" id="last_name" name="last_name" required>
+            </div>
+            <div class="form-group">
+                <label for="account_name">ชื่อบัญชี</label>
+                <input type="text" id="account_name" name="account_name" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">เพศ</label>
+                <select id="gender" name="gender" required>
+                    <option value="">เลือก</option>
+                    <option value="male">ชาย</option>
+                    <option value="female">หญิง</option>
+                    <option value="other">อื่นๆ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="age">อายุ</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+            <div class="form-group">
+                <label for="email">อีเมล</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">รหัสผ่าน</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">ยืนยันรหัสผ่าน</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+            <button type="submit">สมัครสมาชิก</button>
+        </form>
+    </div>
+</body>
+</html>

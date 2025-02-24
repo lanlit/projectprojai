@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แนะนำการเลี้ยงแมว</title>
+    <style>
+        body {
+            background-image: url("{% static 'images/หมวดหมู่การดูแล.png' %}");
+            background-size: cover;
+            background-color: #ffe4e6; 
+            background-repeat: no-repeat;
+            background-position: center;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #5a4361;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .messages {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .alert {
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .alert-danger {
+            background-color: #d9534f;
+        }
+
+        .alert-success {
+            background-color: #5cb85c;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        select, textarea, input[type="datetime-local"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.2rem;
+            border: 2px solid #d1b3c4;
+            border-radius: 10px;
+            background-color: #fef5f8;
+        }
+
+        textarea {
+            height: 150px;
+            resize: none;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        button, .back-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        button:hover, .back-btn:hover {
+            transform: scale(1.1);
+        }
+
+        button img, .back-btn img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>แนะนำการเลี้ยงแมว</h1>
+
+        <!-- ✅ แสดงข้อความแจ้งเตือน -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'save_advice' %}">
+            {% csrf_token %}
+            
+            <input type="datetime-local" name="created_at" required>
+            
+            <select name="category" required>
+                <option value="" disabled selected>เลือกหมวดหมู่</option>
+                <option value="อาหารสำหรับแมว">อาหารสำหรับแมว</option>
+                <option value="โรคที่จะเสี่ยงเป็นในแต่ละวัย">โรคที่จะเสี่ยงเป็นในแต่ละวัย</option>
+                <option value="การรักษาความสะอาดของแมว">การรักษาความสะอาดของแมว</option>
+            </select>
+            
+            <textarea name="advice_text" placeholder="พิมพ์คำแนะนำที่นี่..." required></textarea>
+
+            {% if user.is_authenticated %}
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+            {% endif %}
+            
+            <div class="button-group">
+                {% if user.is_authenticated %}
+                <a href="{% url 'home' %}" class="back-btn">
+                    <img src="{% static 'images/ไอคอนกลับ.png' %}" alt="กลับไปหน้าแรก">
+                </a>
+                {% endif %}
+                <button type="submit">
+                    <img src="{% static 'images/ไอคอนบันทึก.png' %}" alt="บันทึก">
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

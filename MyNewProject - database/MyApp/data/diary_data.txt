@@ -1,0 +1,486 @@
+ID: 5
+Owner ID: None
+Content: g
+Label: 1
+Image Path: No image
+
+ID: 10
+Owner ID: None
+Content: ปิดเทอมแล้ว เย่ๆๆ พาอ้วนไปเดินเล่นก่อนกลับบ้าน
+Label: 1
+Image Path: No image
+
+ID: 11
+Owner ID: None
+Content: ปิดเทอมแล้วววว ท้องฟ้าสวยมากกกก
+Label: 1
+Image Path: No image
+
+ID: 12
+Owner ID: None
+Content: 55555
+Label: 1
+Image Path: No image
+
+ID: 13
+Owner ID: None
+Content: 55555
+Label: 1
+Image Path: No image
+
+ID: 14
+Owner ID: None
+Content: 55555
+Label: 1
+Image Path: No image
+
+ID: 15
+Owner ID: None
+Content: 5555
+Label: 1
+Image Path: No image
+
+ID: 16
+Owner ID: None
+Content: 5555
+Label: 1
+Image Path: No image
+
+ID: 17
+Owner ID: None
+Content: 5555
+Label: 1
+Image Path: No image
+
+ID: 18
+Owner ID: None
+Content: 5555
+Label: 1
+Image Path: No image
+
+ID: 19
+Owner ID: None
+Content: ง่วง
+Label: 1
+Image Path: No image
+
+ID: 20
+Owner ID: None
+Content: สวัสดี
+Label: 1
+Image Path: No image
+
+ID: 21
+Owner ID: None
+Content: สวัสดี
+Label: 1
+Image Path: No image
+
+ID: 22
+Owner ID: None
+Content: สวัสดี
+Label: 1
+Image Path: No image
+
+ID: 23
+Owner ID: None
+Content: สวัสดี
+Label: 1
+Image Path: No image
+
+ID: 24
+Owner ID: None
+Content: วันนี้
+Label: 1
+Image Path: No image
+
+ID: 25
+Owner ID: None
+Content: หนาววววว
+Label: 1
+Image Path: No image
+
+ID: 26
+Owner ID: None
+Content: 123456789
+Label: 1
+Image Path: No image
+
+ID: 27
+Owner ID: None
+Content: หนาวมากๆๆๆ พาไอ้อ้วนไปเดินแก้หนาว
+Label: 1
+Image Path: No image
+
+ID: 28
+Owner ID: None
+Content: หนาวมากๆๆๆ พาไอ้อ้วนไปเดินแก้หนาว
+Label: 1
+Image Path: No image
+
+ID: 29
+Owner ID: None
+Content: 12312121
+Label: 1
+Image Path: No image
+
+ID: 30
+Owner ID: None
+Content: 12312121
+Label: 1
+Image Path: No image
+
+ID: 52
+Owner ID: 14
+Content: รูปนี้ชอบมากคิดมากแมวอ้วนก็ชอบเหมือนกันน่ารักที่สุดเลย ท้องฟ้าก็สวย คนในรูปก็หล่ออีกโอ้ยประทับใจสุดๆ
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__41074697.jpg
+
+ID: 63
+Owner ID: 14
+Content: พาลูกชายมาเดินเล่นสะพานแดง ชอบมากๆๆครับ แม่ก็ฟินลูกชายก็ฟิน
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__41074691.jpg
+
+ID: 74
+Owner ID: 14
+Content: กางพุงให้แม่จกค้าบบ แม่จะได้หายเหนื่อย
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798170.jpg
+
+ID: 76
+Owner ID: 14
+Content: ศุกร์แรกของปี อากาศหนาวมาก พาอองฟองมาเดินเล่นชอบคัก
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__41074697.jpg
+
+ID: 77
+Owner ID: 14
+Content: เดินเล่นสะพานแดง อากาศดรมาก แมวอ้วนตื่นเต้นสุดๆๆ
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__41074691.jpg
+
+ID: 78
+Owner ID: 14
+Content: ทำการบ้านอยู่ มีสายตาอ้อนจากแมวอ้อน ให้รีบทำ สงสัยคิดถึงมากอยากให้เล่นด้วย จะรีบทำการบ้านครับๆๆ
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798174.jpg
+
+ID: 79
+Owner ID: 14
+Content: พาแมวอ้วนมาเดินเล่นลานในมอ ตื่นเต้นสุดๆจ้า
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798186.jpg
+
+ID: 80
+Owner ID: 14
+Content: มาเดินเล่นอีกแล้วว เจอแมวหลายตัวมากมีแต่ตัวน่ารักๆ แต่อองฟองกลัวเฉย5555
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__41074745.jpg
+
+ID: 81
+Owner ID: 14
+Content: อองฟองนอนทั้งวันไม่ทำไรเลย สงสัยเบื่อแม่แน่ๆ จะถ่ายรูปก็เดินหนี นอยๆ
+Label: 1
+Image Path: No image
+
+ID: 82
+Owner ID: 14
+Content: พึ่งมาถึงห้องมีคนนอนรอ วันนี้เหนื่อยมากแต่มีคนรอหายเหนื่อย
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798162.jpg
+
+ID: 83
+Owner ID: 14
+Content: จะออกไปดื่มไปดริ้งเจอเด็กอ้วนงอนน
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798175.jpg
+
+ID: 84
+Owner ID: 14
+Content: นั่งทำงานอยู่ดีๆ มีเด็กมาอ้อนน่ารักจริงๆๆ
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798184.jpg
+
+ID: 85
+Owner ID: 14
+Content: อยากวิ่งตามสาว แต่แม่จับทัน หน้าก็จะเหวี่ยงๆหน่อย
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798192.jpg
+
+ID: 86
+Owner ID: 14
+Content: อองฟองอยากรู้เรื่องชาวบ้านครับแม่
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798172.jpg
+
+ID: 87
+Owner ID: 14
+Content: หยอกกันอยู่ดีๆมางับกันได้ไง เสียใจสุดๆ
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798200.jpg
+
+ID: 88
+Owner ID: 14
+Content: กัญชาแมวครั้งแรกของผมครับป้าๆ ชอบมากครับ
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798197.jpg
+
+ID: 89
+Owner ID: 14
+Content: รักแม่จัง นอนกอดแม่ดีกว่า น่ารักจังเลยยย
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798198.jpg
+
+ID: 90
+Owner ID: 14
+Content: น่ารักสุดๆ สไปร์ทเด้อแมววปลาเผา
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798170_io6nWSM.jpg
+
+ID: 91
+Owner ID: 14
+Content: สงสัยเก่งสุดๆ
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798154.jpg
+
+ID: 92
+Owner ID: 14
+Content: อ้ายกะหล่อเนาะ น่ารักที่สุดเลยลูกแม่
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__41074693.jpg
+
+ID: 93
+Owner ID: 14
+Content: นอนท่าอะไรไม่รู้ แม่ชอบน่ารักดีเลยถ่ายเก็บไว้
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798171.jpg
+
+ID: 94
+Owner ID: 14
+Content: เหนื่อยอ่ะแม่ นอนทั้งวันคิดถึงสาว
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__41074694.jpg
+
+ID: 95
+Owner ID: 14
+Content: ไม่ได้เจออองฟองวันนึงคิดถึงมากกก
+Label: 1
+Image Path: No image
+
+ID: 96
+Owner ID: 14
+Content: ท้องฟ้าก็สวย นายแบบก็หล่อ มีความสุจสุดๆฟิรๆ
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798196.jpg
+
+ID: 97
+Owner ID: 14
+Content: ให้ลายเซ็นแม่ครับ ผมรักแม่
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798185.jpg
+
+ID: 98
+Owner ID: 14
+Content: ชอบลายปลาเผากับพวงมังคุดของเด็กอ้วน
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798190.jpg
+
+ID: 99
+Owner ID: 14
+Content: วันนี้ตื่นมาเจอสุดหล่อแลบลิ้นใส่ ตกใจเล็กน้อย
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798155.jpg
+
+ID: 100
+Owner ID: 14
+Content: ชอบนอนหนุนแขนแม่ครัช มันสบายกว่ากันๆๆ
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798178.jpg
+
+ID: 101
+Owner ID: 14
+Content: จกพุงหน่อย หน้าก็จะตึงๆหน่อย
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798187.jpg
+
+ID: 102
+Owner ID: 14
+Content: เซลฟี่รูปคู่ ทำไมทำหน้าแบบนั้น แต่สวยดีชอบ
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__41074738.jpg
+
+ID: 103
+Owner ID: 14
+Content: อันนี้หนีลูกชายเที่ยว 5555
+Label: 1
+Image Path: No image
+
+ID: 104
+Owner ID: 14
+Content: รักกันดี =
+Label: 1
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798199.jpg
+
+ID: 105
+Owner ID: 14
+Content: น่ารักอ่ะ มองกี่ทีก็น่ารัก จุงน้อยๆของแมวอ้วน
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798160.jpg
+
+ID: 106
+Owner ID: 14
+Content: นอนเฉยๆไม่ได้ต้องเอาตีนมาก่ายหัวแม่
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798173.jpg
+
+ID: 107
+Owner ID: 14
+Content: กินเยอะ เวลาอึก็จะขรึมๆหน่อย สบายท้องมากครับแม่
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\S__65798189.jpg
+
+ID: 108
+Owner ID: 14
+Content: แมวอะไรชอบนอนใกล้ปลั๊กไฟ สักวันจะกลายเป็นแมวย่าง
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_52.jpg
+
+ID: 109
+Owner ID: 14
+Content: จ๊ะเอ๋ สวัสดีครับคนสวยย แอบมองเธออยู่นะจ๊ะ
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_11.jpg
+
+ID: 110
+Owner ID: 14
+Content: กลัวสาวก็กลัว สงสัยก็สงสัย อยากทำความรู้จักแต่กลัว คนนี้สับสนๆ
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_6.jpg
+
+ID: 111
+Owner ID: 14
+Content: มะแง๊วววววว ไมโครเวฟของแม่
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_22.jpg
+
+ID: 112
+Owner ID: 14
+Content: ความจิกกล้อง แววนายแบบตั้งแต่น้อยๆเลยน้อ
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_1.jpg
+
+ID: 113
+Owner ID: 14
+Content: แชะ แชะ แชะ ถ่ายรูปกับคนหล่อ ปลื้มปริ่มม
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_66.jpg
+
+ID: 114
+Owner ID: 14
+Content: วันที่ได้กินเปียก ก็จะอารมณ์ดีกว่าทุกวัน
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_65.jpg
+
+ID: 115
+Owner ID: 14
+Content: ถ่ายรูแก่อนจ้า อย่าพึ่งสนใจเรื่องคนอื่น
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_74.jpg
+
+ID: 116
+Owner ID: 14
+Content: บิดขี้เกียจแต่นอนทั้งวัน งงสุดๆ
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_38.jpg
+
+ID: 117
+Owner ID: 14
+Content: จุ๊บแก้มแม่ แม่สดชื่นสุดๆจ้า
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_76.jpg
+
+ID: 118
+Owner ID: 14
+Content: ท่านอนสบายใจสบายกายยย
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_15.jpg
+
+ID: 119
+Owner ID: 14
+Content: ถ่ายรอนนี้สงสัยใครในกระจกว่ะ555
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_69.jpg
+
+ID: 120
+Owner ID: 14
+Content: ไอ่อ้วนนนนนน น่ารักอ่ะ
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_83.jpg
+
+ID: 121
+Owner ID: 14
+Content: มองใครน้อ เดินเล่นทีไร สงสัยคนอื่นไปทั่วว
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_12.jpg
+
+ID: 122
+Owner ID: 14
+Content: เซลฟั่กับแม่ พุงย้อยๆหน่อยพึ่งกินข้าวเสร็จจจ
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_58.jpg
+
+ID: 123
+Owner ID: 14
+Content: เฝ้สแม่หรือทำให้แม่ทำงานยากกว่าเดิมน้อ
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_143.jpg
+
+ID: 124
+Owner ID: 14
+Content: ว้าว อะเมซิ่งง ตกใจไร
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_5.jpg
+
+ID: 125
+Owner ID: 14
+Content: เบื่อแม่อ่ะ ชอบแต่ถ่ายรูปปป
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_90.jpg
+
+ID: 126
+Owner ID: 14
+Content: นอนเตียงไม่นุ่มนอนห้องน้ำดีฟ่าา
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_104.jpg
+
+ID: 127
+Owner ID: 14
+Content: เปียกอร่อยมาก กินอิ่มก็ง่วงเลย
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_32.jpg
+
+ID: 128
+Owner ID: 14
+Content: เสื้อตัวเดิมที่เดิมส่องสาวเหมือนเดิม
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_9.jpg
+
+ID: 129
+Owner ID: 14
+Content: ควยสัสหมา
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_30.jpg
+
+ID: 130
+Owner ID: 14
+Content: รักนะ
+Label: 1
+Image Path: No image
+
+ID: 131
+Owner ID: 14
+Content: ไอ้เหี้ย
+Label: 0
+Image Path: C:\MyDjangoProjects\MyNewProject - database\media\diary_images\LINE_ALBUM_2268__1_250202_28.jpg
+

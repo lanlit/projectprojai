@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรไฟล์แมวของฉัน - MeowDiary</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f9f6f6;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #5a4361;
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-picture {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 20px auto;
+            border: 5px solid #ff99aa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-picture img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        .text-start {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .text-start p {
+            font-size: 1.1rem;
+            color: #5a4361;
+        }
+
+        .text-start strong {
+            color: #f4b1c2;
+        }
+
+        /* ปรับแต่งปุ่ม */
+        .btn-custom {
+            background-color: #f4b1c2;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0px 4px 8px rgba(244, 177, 194, 0.4);
+        }
+
+        .btn-custom:hover {
+            background-color: #f07384;
+            box-shadow: 0px 6px 12px rgba(244, 126, 128, 0.6);
+        }
+
+        .btn-secondary {
+            background-color: #3ea8e1;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            border: none;
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #999;
+
+        }
+
+        .additional-action a {
+            background-color: #ff8ba7;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 20px;
+            display: inline-block;
+            font-size: 1.1rem;
+        }
+
+        .additional-action a:hover {
+            background-color: #f07384;
+        }
+
+        hr {
+            border-top: 1px solid #f4b1c2;
+            margin-top: 30px;
+        }
+
+        /* ปรับเพิ่มอิโมจิ */
+        .btn-custom::before {
+            content: "🐱 ";  /* เพิ่มอิโมจิแมว */
+        }
+
+        .btn-secondary::before {
+            content: "🔙 ";  /* เพิ่มอิโมจิกลับ */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>แมวของฉัน</h1>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: {% if message.tags == 'success' %}green{% else %}red{% endif %};">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Loop to display all cat profile information -->
+        {% for cat in cat_profiles %}
+            <div class="profile-picture">
+                {% if cat.catprofile_image %}
+                    <img src="{{ cat.catprofile_image.url }}" alt="รูปโปรไฟล์แมว" onerror="this.onerror=null; this.src='{% static 'images/default_cat.png' %}';">
+                {% else %}
+                    <img src="{% static 'images/default_cat.png' %}" alt="ไม่มีรูป">
+                {% endif %}
+            </div>
+
+            <div class="text-start">
+                <p><strong>ชื่อแมว:</strong> {{ cat.cat_name }}</p>
+                <p><strong>อายุ:</strong> {{ cat.cat_age }} ปี</p>
+                <p><strong>สายพันธุ์:</strong> {{ cat.cat_breed }}</p>
+                <p><strong>เพศ:</strong> {{ cat.cat_gender }}</p>
+                <p><strong>วันเกิด:</strong> {{ cat.cat_birthday }}</p>
+                <p><strong>สิ่งที่ชอบ:</strong> {{ cat.cat_fav }}</p>
+            </div>
+
+            <!-- Edit button for each cat's profile -->
+            <a href="{% url 'cat_edit' cat.id %}" class="btn-custom">แก้ไขข้อมูล</a>
+            <hr>
+        {% endfor %}
+
+        <div class="additional-action">
+            <a href="{% url 'cat_create' %}">เพิ่มข้อมูลแมวใหม่</a>
+        </div>
+
+        <div>
+            <a href="{% url 'profile_view' %}" class="btn-secondary">กลับ</a>
+            <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-custom">ออกจากระบบ</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

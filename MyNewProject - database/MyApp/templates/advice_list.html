@@ -1,0 +1,226 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายการคำแนะนำการเลี้ยงแมว</title>
+
+    <style>
+        /* 🌟 Global Styles */
+        body {
+            /* background-image: url("{% static 'images/หมวดหมู่การดูแล.png' %}"); */
+            background-size: cover;
+            background-color: #ffe4e6;
+            background-repeat: no-repeat;
+            background-position: center;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            padding: 25px;
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #5a4361;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 🌟 ฟอร์มค้นหาคำแนะนำ */
+        form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            border: 2px solid #d1b3c4;
+            border-radius: 30px;
+            width: 70%;
+            background-color: #fff;
+            outline: none;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ff7eb3;
+            box-shadow: 0 0 12px rgba(255, 126, 179, 0.4);
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            border: none;
+            background-color: #4629e9;
+            color: white;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #f3f3f8;
+            transform: scale(1.05);
+        }
+
+        /* 🌟 รายการคำแนะนำ */
+        .advice-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .advice-item {
+            padding: 15px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #fff, #fef5f8);
+            margin-bottom: 15px;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .advice-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .advice-item h3 {
+            color: #5a4361;
+            margin: 0 0 10px;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .advice-item p {
+            margin: 5px 0;
+            font-size: 1rem;
+            color: #333;
+            text-align: left;
+        }
+
+        .advice-item strong {
+            color: #6a5acd;
+        }
+
+        /* 🌟 ปุ่ม */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #f9f8fe, #483d8b);
+            transition: all 0.3s ease-in-out;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0px 4px 10px rgba(106, 90, 205, 0.3);
+            flex: 1;
+            min-width: 180px;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #483d8b, #372d69);
+            transform: scale(1.05);
+            box-shadow: 0px 6px 12px rgba(72, 61, 139, 0.4);
+        }
+
+        .btn img {
+            width: 50px;
+            height: 50px;
+        }
+
+        /* 🌟 Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>รายการคำแนะนำการเลี้ยงแมว</h1>
+
+        <!-- ฟอร์มค้นหาคำแนะนำ -->
+        <form method="GET" action="{% url 'advice_list' %}">
+            <input type="text" name="search" placeholder="ค้นหาคำแนะนำ..." value="{{ request.GET.search }}">
+            <button type="submit">ค้นหา</button>
+        </form>
+
+        {% if advices %}
+            <ul class="advice-list">
+                {% for advice in advices %}
+                    <li class="advice-item">
+                        <h3>{{ advice.category }}</h3>
+                        <p>
+                            <strong>โดย:</strong> 
+                            {% if advice.user %}
+                                {% if advice.user.first_name or advice.user.last_name %}
+                                    {{ advice.user.first_name }} {{ advice.user.last_name }}
+                                {% else %}
+                                    ไม่ระบุตัวตน
+                                {% endif %}
+                            {% else %}
+                                ไม่ระบุตัวตน
+                            {% endif %}
+                        </p>
+                        <p><strong>คำแนะนำ:</strong> {{ advice.advice_text }}</p>
+                        <p><strong>วันที่:</strong> {{ advice.created_at|date:"d M Y, H:i" }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="text-align: center; color: #555;">ยังไม่มีคำแนะนำในระบบ</p>
+        {% endif %}
+
+        <div class="button-group">
+            {% if user.is_authenticated %}
+                    <!-- ปุ่มจะปรากฏเมื่อผู้ใช้เข้าสู่ระบบ -->
+                    <a href="{% url 'home' %}" class="btn">กลับ</a>
+                {% else %}
+                <a href="{% url 'header' %}" class="btn">กลับไปหน้าหน้าแรก</a>
+                {% endif %}
+            <a href="{% url 'advice_form' %}" class="btn">
+                <img src="{% static 'images/image.png' %}" alt="เพิ่มคำแนะนำใหม่"> เพิ่มคำแนะนำ
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

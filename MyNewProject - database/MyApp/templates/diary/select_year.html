@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeowDiary - สร้างวิดีโอความทรงจำ</title>
+    <style> 
+        /* เอฟเฟกต์พื้นหลัง */
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            color: white;
+            animation: bgAnimation 5s infinite alternate;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* ให้เต็มจอเสมอ */
+            margin: 0;
+        }
+
+        @keyframes bgAnimation {
+            0% { background: linear-gradient(45deg, #ff9a9e, #fad0c4); }
+            50% { background: linear-gradient(45deg, #a18cd1, #fbc2eb); }
+            100% { background: linear-gradient(45deg, #ff9a9e, #fad0c4); }
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* กรอบฟอร์ม */
+        .form-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            text-align: left;
+            width: 90%;
+            max-width: 600px; /* ปรับขนาดให้พอดีกับหน้าจอ */
+            color: #333;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .form-container:hover {
+            transform: scale(1.03);
+        }
+
+        label {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            font-size: 18px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            background: linear-gradient(to right, #db6681, #d72d71);
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s, background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(to right, #ff4b2b, #ff416c);
+            border-radius: 80px;
+        }
+
+        /* ปุ่มเมนูเสริม */
+        .menu-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap; /* ปรับให้ปุ่มไม่ล้น */
+        }
+
+        .menu-button {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: 150px;
+            justify-content: center;
+        }
+
+        .menu-button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+        }
+
+        /* ป็อปอัพแจ้งเตือน */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #333;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <h1>🎬 สร้างวิดีโอความทรงจำ MeowDiary 🎶</h1>
+
+    <div class="form-container">
+        <form action="{% url 'generate_video' %}" method="GET" id="videoForm" onsubmit="showPopup()">
+            
+            <!-- เลือกปี -->
+            <label for="year">📅 เลือกปี:</label>
+            <select name="year" id="year" required>
+                <option value="">เลือกปี</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+            </select>
+
+            <!-- เลือกเพลง -->
+            <label for="music">🎵 เลือกเพลง:</label>
+            <select name="music" id="musicSelect">
+                <option value="static/music/Proud.mp3">Proud</option>
+                <option value="static/music/จดจำ-OnlyMonday.mp3">จดจำ - Only Monday</option>
+                <option value="static/music/TingTaeKeb-TheTOYS.mp3">ทิ้งแต่เก็บ - The TOYS</option>
+                <option value="static/music/ความทรงจำ-วิโอเลต-วอเทียร์.mp3">ความทรงจำ - วิโอเลต วอเทียร์</option>
+            </select>
+
+            <!-- เลือกเวลาเริ่มต้น -->
+            <label for="start_time">⏱ เลือกวินาทีเริ่มต้น:</label>
+            <input type="number" name="start_time" min="0" value="0" required>
+
+            <!-- ปุ่มสร้างวิดีโอ -->
+            <button type="submit">🎥 สร้างวิดีโอ</button>
+        </form>
+    </div>
+
+    <!-- ปุ่มเมนูเสริม -->
+    <div class="menu-buttons">
+        <a href="{% url 'list_view' %}" class="menu-button">📖 ไปที่ไดอารี่</a>
+        <a href="{% url 'home' %}" class="menu-button">⬅️ กลับ</a>
+        <a href="{% url 'logout' %}" class="menu-button">🚪 ออกจากระบบ</a>
+    </div>
+
+    <!-- ป็อปอัพระหว่างการประมวลผล -->
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <p>⏳ กรุณารอสักครู่ กำลังประมวลผล...</p>
+        </div>
+    </div>
+
+    <script>
+        function showPopup() {
+            document.getElementById('popup').style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

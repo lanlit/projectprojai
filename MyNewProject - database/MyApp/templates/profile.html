@@ -1,0 +1,250 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรไฟล์ของฉัน - MeowDiary</title>
+    <style>
+        /* 🌟 Global Styles */
+        body {
+            background-color: #ffe4e6;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            color: #6F8BA4;
+        }
+
+        /* 🌟 Container */
+        .container {
+            width: 100%;
+            max-width: 850px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        /* Header */
+        header h1 {
+            font-size: 2.5rem;
+            color: #5a4361;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Profile Section */
+        .profile-section {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 50px;
+        }
+
+        /* Profile Picture */
+        .profile-picture {
+            border: 3px dashed #5a4361;
+            border-radius: 20px;
+            width: 200px;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background-color: transparent;
+            margin-top: 50px;
+        }
+
+        .profile-picture img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 15px;
+        }
+
+        /* Profile Info */
+        .profile-info {
+            text-align: left;
+            margin-top: 20px;
+            margin-left: 20px; /* เพิ่ม margin เพื่อขยับไปทางซ้าย */
+        }
+
+        .profile-info p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .input-field {
+            background-color: #f0e5f4;
+            padding: 12px;
+            border-radius: 15px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 15px;
+            pointer-events: none; /* ป้องกันไม่ให้แก้ไข */
+            background-color: #e9ecef; /* สีพื้นหลังที่บ่งบอกว่าไม่สามารถแก้ไข */
+        }
+
+        /* Actions */
+        .actions {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .actions button {
+            background-color: #6a5acd;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            color: white;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .actions button:hover {
+            background-color: #483d8b;
+        }
+
+        /* Footer */
+        .footer-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            margin-top: 50px;
+            padding: 20px 0;
+        }
+
+        .footer-btn {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            border: none;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .footer-btn img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 5px;
+        }
+
+        .footer-btn p {
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        /* 🌟 Button Styling */
+        .btn {
+            font-size: 1.2rem;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            background-color: #f4b1c2;
+            box-shadow: 0px 6px 12px rgba(244, 177, 194, 0.3);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #e798a7;
+            box-shadow: 0px 8px 18px rgba(244, 126, 128, 0.4);
+        }
+
+        .btn-danger {
+            background-color: #f44336;
+            box-shadow: 0px 6px 12px rgba(244, 67, 54, 0.3);
+        }
+
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+
+        /* 🌟 Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>โปรไฟล์ของฉัน</h1>
+        </header>
+
+        <form method="POST" action="{% url 'save_profile' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="profile-section">
+                <div class="left">
+                    <div class="profile-picture">
+                        {% if profile.profile_image %}
+                            <img id="profile-image-preview" src="{{ profile.profile_image.url }}" alt="รูปโปรไฟล์">
+                        {% else %}
+                            <p id="profile-image-preview"></p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="right">
+                    <div class="profile-info">
+                        <p>ชื่อผู้ใช้: 
+                            <input type="text" class="input-field" value="{{ user.account_name }}" disabled>
+                        </p>
+                        <p>ชื่อ: 
+                            <input type="text" class="input-field" value="{{ user.first_name }}" disabled>
+                        </p>
+                        <p>นามสกุล: 
+                            <input type="text" class="input-field" value="{{ user.last_name }}" disabled>
+                        </p>
+                        <!-- <p>อายุ: 
+                            <input type="number" class="input-field" value="{{ profile.age }}" disabled>
+                        </p> -->
+                        <p>เบอร์โทรศัพท์: 
+                            <input type="text" class="input-field" value="{{ profile.phone_number }}" disabled>
+                        </p>
+                        <p>อีเมล: 
+                            <input type="email" class="input-field" value="{{ user.email }}" disabled>
+                        </p>
+                    </div>
+
+                    <div class="actions">
+                        <a href="{% url 'profile_edit' %}" class="btn">แก้ไขโปรไฟล์</a>
+                        <a href="{% url 'cat_profile' %}" class="btn">ข้อมูลแมว</a>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="footer-container">
+            <a href="{% url 'home' %}" class="footer-btn">
+                <button type="button" class="btn">เมนู</button>
+            </a>
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">ออกจากระบบ</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
