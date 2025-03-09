@@ -31,21 +31,19 @@ from nltk import NaiveBayesClassifier as nbc
 from pythainlp.tokenize import word_tokenize
 import codecs
 from itertools import chain
-import subprocess
-BAD_WORDS = ["เหี้ย", "ควย", "เย็ดแม่", "fuck", "shit", "asshole", "กะหรี่", "หี", "แตด","โป๊","มีเซ็ก"]
 
-def filter_bad_words(text, replacement="***"):
-    """ แทนคำหยาบด้วย *** """
-    for word in BAD_WORDS:
-        pattern = r"\b" + re.escape(word) + r"\b"
-        text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
-    return text
 # View สำหรับการเข้าสู่ระบบ
+
 def login_view(request):
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
-        
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        # ตรวจสอบกรณีอีเมลและรหัสผ่านว่าง
+        if not email or not password:
+            messages.error(request, "กรุณากรอกอีเมลและรหัสผ่าน")
+            return render(request, 'login.html')
+
         # ตรวจสอบการยืนยันตัวตนผู้ใช้
         user = authenticate(request, username=email, password=password)
         if user is not None:
@@ -125,6 +123,7 @@ def cat_profile_view(request):
 
 def register_view(request):
     if request.method == 'POST':
+        # รับข้อมูลจากฟอร์ม
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         account_name = request.POST['account_name']
@@ -134,24 +133,71 @@ def register_view(request):
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
         
-        # ตรวจสอบรหัสผ่าน
-        if password == confirm_password:
-            # สร้างผู้ใช้ใหม่
-            user = CustomUser.objects.create(
-                first_name=first_name,
-                last_name=last_name,
-                account_name=account_name,
-                gender=gender,
-                age=age,
-                email=email,
-                password=make_password(password)
-            )
-            # สร้างโปรไฟล์ให้กับผู้ใช้ใหม่
-            Profile.objects.create(user=user)
-            return redirect('login')  # เปลี่ยนเส้นทางไปยังหน้าเข้าสู่ระบบ
-        else:
+        # ตรวจสอบว่ารหัสผ่านตรงกัน
+        if password != confirm_password:
             messages.error(request, 'รหัสผ่านไม่ตรงกัน')
-            return render(request, 'register.html', {'error': 'รหัสผ่านไม่ตรงกัน'})
+            return render(request, 'register.html', {
+                'error': 'รหัสผ่านไม่ตรงกัน',
+                'first_name': first_name,
+                'last_name': last_name,
+                'account_name': account_name,
+                'gender': gender,
+                'age': age,
+                'email': email
+            })
+
+        # ตรวจสอบว่า account_name มีค่าหรือไม่
+        if not account_name:
+            messages.error(request, 'กรุณากรอกชื่อบัญชี')
+            return render(request, 'register.html', {
+                'error': 'กรุณากรอกชื่อบัญชี',
+                'first_name': first_name,
+                'last_name': last_name,
+                'account_name': account_name,
+                'gender': gender,
+                'age': age,
+                'email': email
+            })
+
+        # ตรวจสอบว่า account_name ซ้ำใน Profile หรือไม่
+        if Profile.objects.filter(account_name=account_name).exists():
+            messages.error(request, 'ชื่อบัญชีนี้มีการใช้งานแล้ว')
+            return render(request, 'register.html', {
+                'first_name': first_name,
+                'last_name': last_name,
+                'account_name': account_name,
+                'gender': gender,
+                'age': age,
+                'email': email
+            })
+
+        # ตรวจสอบอีเมลซ้ำใน CustomUser
+        if CustomUser.objects.filter(email=email).exists():
+            messages.error(request, 'อีเมลนี้มีการใช้งานแล้ว')
+            return render(request, 'register.html', {
+                'first_name': first_name,
+                'last_name': last_name,
+                'account_name': account_name,
+                'gender': gender,
+                'age': age,
+                'email': email
+            })
+        
+        # สร้างผู้ใช้ใหม่
+        user = CustomUser.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+            account_name=account_name,
+            gender=gender,
+            age=age,
+            email=email,
+            password=make_password(password)  # เข้ารหัสรหัสผ่านก่อนบันทึก
+        )
+
+        # สร้างโปรไฟล์ให้กับผู้ใช้ใหม่
+        Profile.objects.create(user=user, account_name=account_name)  # เพิ่ม account_name ใน Profile
+        messages.success(request, 'สมัครสมาชิกสำเร็จ!')
+        return redirect('login')  # เปลี่ยนเส้นทางไปยังหน้าเข้าสู่ระบบ
     
     return render(request, 'register.html')
 
@@ -159,35 +205,27 @@ def register_view(request):
 # View สำหรับการแก้ไขโปรไฟล์ผู้ใช้และแมว
 @login_required
 def edit_profile(request):
-    # รับข้อมูลผู้ใช้ที่เข้าสู่ระบบ
     user = request.user
-
     if request.method == 'POST':
-        user_form = CustomUserForm(request.POST, instance=user)  # ฟอร์มสำหรับ CustomUser
-        profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)  # ฟอร์มสำหรับ Profile
+        user_form = CustomUserForm(request.POST, instance=user)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
 
-        # ตรวจสอบว่าแบบฟอร์มทั้งสองถูกต้องหรือไม่
         if user_form.is_valid() and profile_form.is_valid():
-            print("ข้อมูลที่ได้รับจากฟอร์ม user_form:", user_form.cleaned_data)  # ดีบักข้อมูลที่รับมาจากฟอร์ม
-            print("ข้อมูลที่ได้รับจากฟอร์ม profile_form:", profile_form.cleaned_data)  # ดีบักข้อมูลที่รับมาจากฟอร์ม
-
-            user_form.save()  # บันทึกข้อมูลของ CustomUser
-            profile_form.save()  # บันทึกข้อมูลของ Profile
-
+            user_form.save()
+            profile_form.save()
             messages.success(request, 'ข้อมูลโปรไฟล์ได้รับการบันทึกแล้ว!')
-            return redirect('profile_view')  # รีไดเรกต์ไปที่หน้าโปรไฟล์หลังจากบันทึกข้อมูลสำเร็จ
+            return redirect('profile_view')  # ไปยังหน้าโปรไฟล์
         else:
-            # แสดงข้อผิดพลาดของฟอร์ม
-            print("ข้อผิดพลาดจาก user_form:", user_form.errors)
-            print("ข้อผิดพลาดจาก profile_form:", profile_form.errors)
-
             messages.error(request, 'เกิดข้อผิดพลาดในการบันทึกข้อมูลโปรไฟล์')
+
     else:
-        user_form = CustomUserForm(instance=user)  # โหลดข้อมูลเดิมเมื่อเข้าเพจ
-        profile_form = ProfileForm(instance=user.profile)  # โหลดข้อมูลโปรไฟล์เดิม
+        user_form = CustomUserForm(instance=user)
+        profile_form = ProfileForm(instance=user.profile)
 
-    return render(request, 'profile_edit.html', {'user_form': user_form, 'profile_form': profile_form})
-
+    return render(request, 'profile_edit.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })
 
 # View สำหรับรายละเอียดไดอารี่
 @login_required
@@ -205,6 +243,7 @@ def list_view(request):
         diaries = diaries.filter(date=date)
         
     return render(request, 'diary/list_diary.html', {'diaries': diaries})
+
 # View สำหรับลบไดอารี่
 @login_required
 def delete_diary_view(request, diary_id):
@@ -215,31 +254,6 @@ def delete_diary_view(request, diary_id):
     diary_entry.delete()
     return redirect('list_view')  # กลับไปหน้ารายการหลังจากลบ
 
-@login_required
-def edit_cat_profile(request):
-    # ดึงข้อมูลทั้งหมดของ CatProfile ที่เจ้าของเป็นผู้ใช้ปัจจุบัน
-    cat_profiles = CatProfile.objects.filter(owner=request.user)
-
-    if not cat_profiles.exists():
-        messages.warning(request, "ยังไม่มีข้อมูลแมว กรุณาเพิ่มข้อมูล")
-        return redirect('cat_edit')  # ถ้าไม่มีข้อมูลแมว ให้ไปหน้าแก้ไขข้อมูลแมว
-
-    # สร้าง formset สำหรับหลายๆ แมว
-    CatFormSet = modelformset_factory(CatProfile, form=CatForm, queryset=cat_profiles)
-
-    if request.method == 'POST':
-        formset = CatFormSet(request.POST, request.FILES)
-        if formset.is_valid():
-            formset.save()
-            messages.success(request, 'บันทึกข้อมูลแมวสำเร็จ!')
-            return redirect('cat_profile')  # หรือไปยังหน้าอื่นที่คุณต้องการ
-        else:
-            messages.error(request, 'เกิดข้อผิดพลาดในการบันทึกข้อมูลแมว')
-    else:
-        formset = CatFormSet(queryset=cat_profiles)
-
-    return render(request, 'cat_edit.html', {'formset': formset})
-    
 
 
 def logout_view(request):
@@ -271,6 +285,30 @@ def diary_form(request):
 
 
 # ฟังก์ชัน[ยันทึกไดอารี่]
+# โหลดคำในเชิงบวกและเชิงลบ
+def load_keywords():
+    with open('MyApp/data/positive.txt', 'r', encoding='utf-8') as f:
+        positive_words = f.read().splitlines()
+
+    with open('MyApp/data/negative.txt', 'r', encoding='utf-8') as f:
+        negative_words = f.read().splitlines()
+
+    return positive_words, negative_words
+
+# ฟังก์ชันทำนาย label
+def predict_label(content, positive_words, negative_words):
+    # นับจำนวนคำในแต่ละประเภท
+    positive_count = sum(1 for word in positive_words if word in content)
+    negative_count = sum(1 for word in negative_words if word in content)
+    
+    if positive_count > negative_count:
+        return 1  # บวก
+    elif negative_count > positive_count:
+        return 0  # ลบ
+    else:
+        return None  # ไม่มีความชัดเจน
+
+@login_required
 def save_diary(request):
     if request.method == 'POST':
         try:
@@ -282,10 +320,21 @@ def save_diary(request):
                 messages.error(request, 'กรุณากรอกเนื้อหาของไดอารี่และเลือกวันที่')  # แจ้งเตือนหากไม่มีการกรอกเนื้อหา
                 return redirect('diary_form')  # เปลี่ยนเส้นทางกลับไปที่ฟอร์ม
 
-            # บันทึกข้อมูลไดอารี่ลงในฐานข้อมูล
-            new_diary = Diary(content=diary_content, date=diary_date, image=diary_image)
-            new_diary.save()
+            # โหลดคำศัพท์เชิงบวกและเชิงลบ
+            positive_words, negative_words = load_keywords()
 
+            # ทำนาย label จากเนื้อหา
+            label = predict_label(diary_content, positive_words, negative_words)
+
+            # บันทึกข้อมูลไดอรี่ลงในฐานข้อมูล โดยตั้งค่า owner ให้เป็นผู้ใช้ที่ล็อกอิน
+            new_diary = Diary(content=diary_content, date=diary_date, image=diary_image, owner=request.user, label=label)
+            new_diary.save()
+            print(f"บันทึกไดอารี่ใหม่: {new_diary}")
+            print(f"เนื้อหา: {diary_content}")
+            print(f"วันที่: {diary_date}")
+            print(f"ภาพ: {diary_image}")
+            print(f"เจ้าของ: {request.user}")
+            print(f"label ที่ทำนาย: {label}")
             # แสดงข้อความสำเร็จ
             messages.success(request, 'ไดอารี่ถูกบันทึกเรียบร้อยแล้ว!')
             return redirect('list_view')  # เปลี่ยนเส้นทางไปที่หน้าแสดงรายการไดอารี่
@@ -296,6 +345,9 @@ def save_diary(request):
             return redirect('diary_form')
 
     return render(request, 'diary/diary_form.html')
+    
+
+
 
 
 def diary_detail_view(request, diary_id):
@@ -303,40 +355,16 @@ def diary_detail_view(request, diary_id):
     return render(request, 'diary/diary_detail.html', {'diary_entry': diary_entry})
 
 def advice_list(request):
-    query = request.GET.get('query', '')
-    date = request.GET.get('date', '')
+    search_query = request.GET.get('search', '').strip()  # ดึงคำค้นหา
 
-    # ดึงข้อมูลคำแนะนำทั้งหมด
-    advices = Advice.objects.all()
-
-    # ✅ ตรวจสอบชื่อผู้ใช้ ถ้าไม่มีให้ตั้งค่าเป็น "ไม่ระบุตัวตน"
-    for advice in advices:
-        if advice.user:
-            advice.display_name = f"{advice.user.first_name} {advice.user.last_name}".strip()
-        else:
-            advice.display_name = "ไม่ระบุตัวตน"
-
-    # กรองข้อมูลตามข้อความค้นหา
-    if query:
-        advices = advices.filter(
-            Q(category__icontains=query) | Q(advice_text__icontains=query)
-        )
-
-    # กรองข้อมูลตามวันที่
-    if date:
-        advices = advices.filter(created_at__date=date)
+    if search_query:
+        advices = Advice.objects.filter(advice_text__icontains=search_query)
+    else:
+        advices = Advice.objects.all()
 
     return render(request, 'advice_list.html', {'advices': advices})
 
-
-#@login_required
-def advice_saved_view(request):
-    # คุณสามารถส่ง context ไปยัง template ถ้ามีข้อมูลเพิ่มเติมที่ต้องการแสดง
-    context = {}
-    return render(request, 'advice_saved.html', context)
-
-
-
+@login_required 
 def create_cat_profile(request):
     if request.method == 'POST':
         form = CatForm(request.POST, request.FILES)
@@ -353,19 +381,15 @@ def create_cat_profile(request):
 
     return render(request, 'cat_create.html', {'form': form})
 
-@login_required #เอาจริงล่ะอันนี้
+@login_required 
 def edit_cat_profile(request, id):
-    # ดึงข้อมูล CatProfile โดยใช้ id
     cat = get_object_or_404(CatProfile, id=id)
-    # ดึงโดยใช้พีเคถ้าใช้ไอดีไม่ได้
-    # cat = get_object_or_404(CatProfile, pk=pk, owner=request.user)
-
     if request.method == 'POST':
         form = CatForm(request.POST, request.FILES, instance=cat)
         if form.is_valid():
             form.save()
             messages.success(request, 'บันทึกข้อมูลแมวสำเร็จ!')
-            return redirect('cat_profile')  # เปลี่ยนไปหน้าโปรไฟล์หลังบันทึก
+            return redirect('cat_profile')  
         else:
             messages.error(request, 'เกิดข้อผิดพลาดในการบันทึกข้อมูลแมว')
     else:
@@ -376,28 +400,19 @@ def edit_cat_profile(request, id):
 @login_required
 def save_profile(request):
     user = request.user
-    profile, created = Profile.objects.get_or_create(user=user)  # ดึงโปรไฟล์ หรือสร้างถ้าไม่มี
-
+    profile, created = Profile.objects.get_or_create(user=user)  
     if request.method == 'POST':
-        # ใช้ฟอร์ม ProfileForm ที่รับข้อมูลจาก request.POST และ request.FILES
         form = ProfileForm(request.POST, request.FILES, instance=profile)
-
-        # ตรวจสอบว่า form ถูกต้อง
         if form.is_valid():
-            form.save()  # ✅ บันทึกข้อมูลล่าสุดลงในฐานข้อมูล
+            form.save()  
             messages.success(request, "อัปเดตโปรไฟล์สำเร็จ!")
-            return redirect('profile_view')  # ✅ กลับไปที่หน้าโปรไฟล์หลังอัปเดตสำเร็จ
+            return redirect('profile_view')
         else:
-            # ถ้ามีข้อผิดพลาดในฟอร์ม
             messages.error(request, "เกิดข้อผิดพลาด โปรดลองอีกครั้ง")
 
-    # ถ้าเป็น GET request หรือ POST ที่ไม่ได้ส่งข้อมูลที่ถูกต้อง
     return render(request, 'profile.html', {'profile': profile, 'form': form})
 
 
-# View สำหรับบันทึกคำแนะนำ
-# ฟังก์ชันสำหรับแสดงคำแนะนำตามหมวดหมู่
-#@login_required
 def save_advice(request):
     if request.method == "POST":
         category = request.POST.get('category', '').strip()
@@ -414,7 +429,7 @@ def save_advice(request):
         # ตรวจสอบหมวดหมู่
         valid_categories = [choice[0] for choice in Advice.CATEGORY_CHOICES]
         if category not in valid_categories:
-            messages.error(request, "หมวดหมู่ไม่ถูกต้อง")
+            messages.error(request, "เลือกหมวดหมู่")
             return render(request, 'advice_form.html')  # แสดงฟอร์มใหม่
 
         # ตรวจสอบและแปลงวันที่
@@ -439,6 +454,15 @@ def save_advice(request):
         return redirect('advice_list')  # ไปที่หน้าแสดงรายการคำแนะนำ
 
     return render(request, 'advice_form.html')  # ถ้าเป็น GET แสดงฟอร์มใหม่
+
+BAD_WORDS = ["เหี้ย", "ควย", "เย็ดแม่", "fuck", "shit", "asshole", "กะหรี่", "หี", "แตด","โป๊","มีเซ็ก"]
+
+def filter_bad_words(text, replacement="***"):
+    """ แทนคำหยาบด้วย *** """
+    for word in BAD_WORDS:
+        pattern = r"\b" + re.escape(word) + r"\b"
+        text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+    return text
 
 def advice_form_view(request):
     return render(request, 'advice_form.html')
